@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    name: Build & package
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 编译 (SwiftPM release)
+        run: swift build -c release --package-path LidAssistant
+
+      - name: 打包 .app
+        run: ./LidAssistant/build-app.sh
+
+      - name: 检查产物
+        run: |
+          test -d "LidAssistant/build/盒盖助手.app/Contents/MacOS"
+          echo "✓ 打包成功"

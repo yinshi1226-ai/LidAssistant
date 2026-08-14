@@ -1,0 +1,31 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: 打 tag 自动发布
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: ./LidAssistant/build-app.sh
+
+      - name: 压缩 + 校验和
+        run: |
+          cd LidAssistant/build
+          zip -r 盒盖助手.app.zip 盒盖助手.app
+          shasum -a 256 盒盖助手.app.zip > SHA256SUMS
+
+      - name: 发布到 GitHub Releases
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            LidAssistant/build/盒盖助手.app.zip
+            LidAssistant/build/SHA256SUMS
+          generate_release_notes: true
