@@ -5,6 +5,8 @@
 
 <p align="center">
   <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/menu-dark.png">
+    <source media="(prefers-color-scheme: light)" srcset="assets/menu-light.png">
     <img alt="盒盖助手菜单" src="assets/menu-light.png" width="640">
   </picture>
 </p>
