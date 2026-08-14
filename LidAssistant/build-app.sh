@@ -9,6 +9,9 @@ APP="build/盒盖助手.app"
 rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 cp .build/release/LidAssistant "$APP/Contents/MacOS/LidAssistant"
+# 授权脚本打进 App 包，便于 brew/下载安装后一键授权
+cp "$(dirname "$0")/../grant.sh" "$APP/Contents/Resources/grant.sh"
+chmod +x "$APP/Contents/Resources/grant.sh"
 
 cat > "$APP/Contents/Info.plist" <<'PLIST'
 <?xml version="1.0" encoding="UTF-8"?>
@@ -20,7 +23,7 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
 	<key>CFBundleIdentifier</key><string>com.lidassistant.menubar</string>
 	<key>CFBundleExecutable</key><string>LidAssistant</string>
 	<key>CFBundlePackageType</key><string>APPL</string>
-	<key>CFBundleShortVersionString</key><string>1.5.5</string>
+	<key>CFBundleShortVersionString</key><string>1.6.0</string>
 	<key>CFBundleVersion</key><string>1</string>
 	<key>LSMinimumSystemVersion</key><string>13.0</string>
 	<key>LSUIElement</key><true/>

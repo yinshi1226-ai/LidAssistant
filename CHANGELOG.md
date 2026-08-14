@@ -36,3 +36,11 @@
 - 自动模式（合盖时任务感知：任务运行保持清醒，任务结束 N 分钟后休眠）；
 - 任务检测：DeepSeek Harness API + Codex/Claude/WorkBuddy 任务日志 + 网络流量佐证；
 - 一键安装（pmset 免密授权 + 崩溃看门狗 + 登录自启）。
+
+## [1.6.0] - 2026-08-14
+
+### 新增
+- 国际化：英文 README（`README.md`）+ 中文 README（`README.zh-CN.md`），附真实界面截图；
+- Homebrew tap 安装方式（`yinshi1226-ai/homebrew-tap`）；
+- `grant.sh`：打包进 App 的 `Contents/Resources/`，支持 brew/下载安装后一键授权；
+- GitHub Actions：CI 构建 + 打 tag 自动发布 Release（.app zip + SHA-256 校验和）。
