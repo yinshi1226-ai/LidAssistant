@@ -65,6 +65,15 @@ final class MenuBarController: NSObject, NSMenuDelegate {
         menu.delegate = self
     }
 
+    /// 只用于安全演示和 README 截图；正常启动仍由菜单栏圆点打开。
+    func showMenuForDemo() {
+        guard let frame = NSScreen.main?.visibleFrame else {
+            statusItem.button?.performClick(nil)
+            return
+        }
+        menu.popUp(positioning: nil, at: NSPoint(x: frame.midX - 170, y: frame.midY + 220), in: nil)
+    }
+
     // MARK: - 图标
 
     private func dot(_ name: String) -> NSImage {

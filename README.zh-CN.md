@@ -1,84 +1,77 @@
 <p align="center">
-  <a href="README.md">English</a> &nbsp;·&nbsp;
-  <b>简体中文</b>
+  <a href="README.md">English</a> &nbsp;·&nbsp; <b>简体中文</b>
+</p>
+
+# 盒盖助手（LidAssistant）
+
+<p align="center">
+  <img src="assets/product-overview-zh.png" alt="盒盖助手功能概览" width="100%">
 </p>
 
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/menu-dark.png">
-    <source media="(prefers-color-scheme: light)" srcset="assets/menu-light.png">
-    <img alt="盒盖助手菜单" src="assets/menu-light.png" width="640">
-  </picture>
+  一个原生 macOS 菜单栏工具：合盖后让指定 AI 任务继续运行，任务结束后再恢复正常休眠。
 </p>
 
 <p align="center">
-  <b>盒盖助手（LidAssistant）</b><br>
-  <sub>macOS 菜单栏应用：合盖时是否休眠，由你说了算；AI 任务运行时，合盖也能继续跑。</sub>
-</p>
-
-<p align="center">
-  <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square"></a>
-  <img alt="Platform: macOS" src="https://img.shields.io/badge/macOS-13%2B-8B5CF6?style=flat-square&logo=apple&logoColor=white">
-  <img alt="Telemetry: none" src="https://img.shields.io/badge/telemetry-none-D946EF?style=flat-square">
-  <img alt="Language: Swift" src="https://img.shields.io/badge/language-Swift-FA7343?style=flat-square&logo=swift&logoColor=white">
+  <a href="LICENSE"><img alt="MIT License" src="https://img.shields.io/badge/license-MIT-16A34A?style=flat-square"></a>
+  <img alt="macOS 13+" src="https://img.shields.io/badge/macOS-13%2B-1E3A8A?style=flat-square&logo=apple&logoColor=white">
+  <img alt="Swift" src="https://img.shields.io/badge/Swift-native-FA7343?style=flat-square&logo=swift&logoColor=white">
+  <img alt="无遥测" src="https://img.shields.io/badge/telemetry-none-2563EB?style=flat-square">
   <a href="https://github.com/yinshi1226-ai/LidAssistant/actions"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/yinshi1226-ai/LidAssistant/ci.yml?label=CI&style=flat-square"></a>
   <a href="https://github.com/yinshi1226-ai/LidAssistant/releases"><img alt="Release" src="https://img.shields.io/github/v/release/yinshi1226-ai/LidAssistant?label=release&style=flat-square"></a>
 </p>
 
-> [!NOTE]
-> 合盖即休眠是 macOS 的默认行为，`caffeinate` 类工具（如 KeepingYouAwake）**无法**阻止它。要让合盖后电脑继续运行，唯一可靠的开关是 `pmset disablesleep`（内核的 `SleepDisabled` 标志）。本项目就是围绕这一个开关，加上「AI 任务感知」与多层安全保护。
+## 两种模式，边界清楚
 
-## 它能做什么
+- **自动模式**：观察支持的软件在本机留下的任务状态。合盖后有任务就保持运行，任务结束后按设定时间请求休眠。
+- **手动模式**：直接选择“合盖休眠”或“合盖不眠”，适合下载、渲染和批处理等临时任务。
+- **黑屏节能**：合盖保持运行时把内置屏亮度降到最低，开盖后恢复。
+- **外接屏保护**：检测到外接显示器时停止干预系统休眠。
+- **崩溃看门狗**：应用异常退出后恢复允许休眠，减少忘记关闭造成的耗电。
 
-| | | |
-|---|---|---|
-| 🔀 | **两种模式** | 自动（任务感知）/ 手动（合盖休眠 ⇄ 合盖不眠），菜单顶部一段切换 |
-| 🤖 | **AI 任务感知** | 合盖时任务运行 → 保持清醒；任务全部结束 → 按设定时间（默认 1 分钟）自动休眠 |
-| 🎯 | **判定准确** | 直接读各软件自带的权威状态源，而非猜测 CPU/标题 |
-| 🌑 | **合盖黑屏节能** | 保持运行期间把内置屏亮度调到最低（显示器不休眠），开盖瞬间恢复 |
-| 🖥️ | **外接屏自动停用** | 检测到外接显示器时程序自动停用、完全跟随系统，拔掉后自动恢复 |
-| 🛡️ | **安全设计** | sudoers 仅两条命令、崩溃看门狗防电池耗尽、零遥测 |
-| 🚀 | **开机自启** | 登录后自动运行，随时监控任务 |
+## 界面
 
-## 判定原理（为什么准）
-
-不是「猜」，而是**读各软件自带的权威状态源**：
-
-| 服务 | 判定方式 |
+| 自动模式 | 手动模式 |
 |---|---|
-| DeepSeek（DeepSeek Harness） | 调用本机 DSH API `POST /api/session.list`，读取官方 `running` 字段（零猜测） |
-| ChatGPT（桌面版 Codex 引擎） | 扫描 `~/.codex/sessions/**` 任务日志：只在任务执行时写入，尾部出现 `task_complete` 即结束 |
-| Claude（Claude Code / 桌面版） | 扫描 `~/.claude/projects/**` 任务日志：尾部出现 `last-prompt` 即本轮结束 |
-| WorkBuddy | 扫描 `~/.workbuddy/projects/**` 任务日志：流式输出时持续写入，空闲即停 |
+| <img src="assets/menu-auto.png" alt="自动模式菜单" width="410"> | <img src="assets/menu-manual.png" alt="手动模式菜单" width="410"> |
 
-另有进程网络流量佐证（只延长活跃判定，不单独误报），以及防误判门控。
+<p align="center">
+  <img src="assets/manual-mode-zh.png" alt="盒盖助手手动模式说明" width="100%">
+</p>
 
-## 与同类工具对比
+## 任务状态从哪里来
 
-| | **盒盖助手** | Sleepless | Amphetamine | KeepingYouAwake | `caffeinate` |
-|---|:---:|:---:|:---:|:---:|:---:|
-| 合盖不休眠（无需外接屏） | ✅ | ✅ | ⚠️ ¹ | ❌ ² | ❌ |
-| AI 任务感知自动休眠 | ✅ | ❌ | ❌ | ❌ | ❌ |
-| 合盖黑屏节能 | ✅ | ❌ | ⚠️ | ❌ | ❌ |
-| 外接屏自动停用 | ✅ | ❌ | ❌ | ❌ | ❌ |
-| 开源 | ✅ MIT | ✅ MIT | ❌ 闭源 | ✅ MIT | Apple |
+盒盖助手只观察本机状态和近期活动，不读取或上传提示词正文。
 
-<sub>¹ Amphetamine 的 closed-display 模式在 Apple Silicon 上可靠性有争议；² KeepingYouAwake 本质是 `caffeinate`，合盖即睡是其设计边界。</sub>
+| 服务 | 使用的本地信号 |
+|---|---|
+| DeepSeek Harness | 本机会话 API 与 `running` 字段 |
+| ChatGPT / Codex | 近期会话事件和完成标记 |
+| Claude | 近期项目事件和本轮结束标记 |
+| WorkBuddy | 近期项目日志活动 |
+
+进程网络活动只会短暂延长“活跃”状态，不会单独创建一个任务。
 
 ## 安装
 
-### 方式一：Homebrew（推荐）
+### Homebrew
 
 ```bash
 brew install --cask yinshi1226-ai/tap/lidassistant
-/Applications/盒盖助手.app/Contents/Resources/grant.sh   # 一次性授权（弹一次开机密码）
+/Applications/盒盖助手.app/Contents/Resources/grant.sh
 ```
 
-### 方式二：下载 Release
+第二条命令只需执行一次：安装严格限定的 sudoers 规则、崩溃看门狗和登录自启。
 
-从 [最新 Release](https://github.com/yinshi1226-ai/LidAssistant/releases/latest) 下载 zip，解压到 `/Applications`，然后运行 `/Applications/盒盖助手.app/Contents/Resources/grant.sh`。
+### 下载 Release
 
-### 方式三：源码安装
+1. 从 [最新 Release](https://github.com/yinshi1226-ai/LidAssistant/releases/latest) 下载 `LidAssistant.zip`。
+2. 解压后把 App 放入 `/Applications`。
+3. 执行 `/Applications/盒盖助手.app/Contents/Resources/grant.sh` 完成一次性授权。
+
+Release 采用 ad-hoc 签名。首次打开时，macOS 可能要求你在“系统设置 → 隐私与安全性”中确认。
+
+### 源码安装
 
 ```bash
 git clone https://github.com/yinshi1226-ai/LidAssistant.git
@@ -86,54 +79,33 @@ cd LidAssistant
 ./install.sh
 ```
 
-> [!NOTE]
-> 当前构建为 ad-hoc 签名，首次安装需在「系统设置 → 隐私与安全性」中允许打开（源码方式安装不会出现该提示）。
->
-> `grant.sh` 是一次性授权：安装 `pmset -a disablesleep 0/1` 两条命令的免密 sudoers + 崩溃看门狗 + 登录自启。详见 [SECURITY.md](SECURITY.md)。
+## 权限与隐私
 
-## 使用
+- 没有遥测，也没有广告 SDK。
+- sudoers 只允许 `pmset -a disablesleep 0` 和 `pmset -a disablesleep 1`。
+- 任务判断使用时间戳、状态字段和事件标记，不读取提示词正文。
+- 诊断日志只保留在本机。
+- 可以通过 `./uninstall.sh` 撤销授权并移除支持文件。
 
-菜单栏点击**彩色圆点**图标：
+详细文件与权限边界见 [SECURITY.md](SECURITY.md)。
 
-- **图标颜色**：🟢 绿 = 空闲/正常；🟠 橙 = 手动合盖不眠；🔴 红 = 任务运行中；⚪ 灰 = 外接屏停用。悬停有文字说明。
-- **模式**：「模式：自动 | 手动」分段开关。
-  - 自动：任务状态列表 + 状态行 + 上次自动休眠时间；完整逻辑只在**合盖**时生效，开盖完全跟随系统；
-  - 手动：`合盖休眠 ⇄ 合盖不眠` 滑动开关，开关颜色与状态栏圆点一致。
-- **合盖时黑屏节能**：滑动开关（打开为蓝色），合盖保持运行期间内置屏亮度调至最低，开盖自动恢复。
-- **休眠等待**：子菜单直接选择「无动态 N 分钟后进入休眠」（30 秒 ~ 60 分钟，可自定义小数分钟）。
+## 使用说明
 
-## 安全与隐私
+- 菜单栏圆点：绿色为空闲，橙色为手动合盖不眠，红色为任务运行，灰色为外接屏停用。
+- 自动模式只在合盖时介入；开盖时跟随系统。
+- 手动模式的橙色开关决定合盖是否休眠，蓝色开关决定是否把屏幕亮度降到最低。
+- 视频通话、媒体播放等其他 macOS 休眠断言仍可能延迟最终休眠。
+- 非 Harness 软件依赖本地日志格式，上游软件变更后可能需要调整识别规则。
 
-详见 [SECURITY.md](SECURITY.md)。要点：
-
-- **零遥测**：不向任何服务器上报数据；
-- **最小权限**：sudoers 仅 `pmset -a disablesleep 0/1` 两条命令；
-- **不读私密内容**：只读任务状态文件的时间戳与事件类型，不上传不外发；
-- **崩溃保护**：看门狗 2 分钟内自动恢复允许休眠；
-- **外接屏自动停用**：有外接显示器时不干预系统。
-
-## 常见问题
-
-- **合盖后没立即睡**：自动模式有设定宽限（默认 1 分钟），这是特性；想立即睡请用「手动：合盖休眠」。
-- **任务跑完了没在 N 分钟后睡**：看菜单状态行，大概率是「有外部程序占用」（视频/通话等）。
-- **退出后合盖不休眠失效**：退出时会自动恢复允许休眠，防止忘关耗尽电池（保持运行即可，已配置开机自启）。
-
-## 开发
+## 开发与验证
 
 ```bash
 cd LidAssistant
-swift build                          # 编译
-swift run LidAssistant --dry-run     # 试跑：只监控记录，不真的动 pmset/休眠
-./build-app.sh                       # 打包 .app
-```
-
-## 卸载
-
-```bash
-cd <项目目录>
-./uninstall.sh
+swift test
+swift run LidAssistant --dry-run
+./build-app.sh
 ```
 
 ## 许可
 
-[MIT](LICENSE) © 2026 LidAssistant contributors
+[MIT](LICENSE)

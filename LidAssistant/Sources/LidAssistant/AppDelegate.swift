@@ -24,6 +24,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             menuBar?.update(snap)
         }
         monitor.start()
+        if CommandLine.arguments.contains("--show-menu") {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                menuBar.showMenuForDemo()
+            }
+        }
         Log.shared.info("盒盖助手已启动 dryRun=\(dryRun) mode=\(ConfigStore.shared.config.mode)")
     }
 

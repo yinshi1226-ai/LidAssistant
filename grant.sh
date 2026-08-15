@@ -5,17 +5,18 @@ set -euo pipefail
 
 USER_NAME="$(id -un)"
 HEARTBEAT="$HOME/Library/Application Support/LidAssistant/heartbeat"
-TMPDIR_LA="/tmp/lidassist-grant.$$"
-mkdir -p "$TMPDIR_LA"
+LIDASSIST_TMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/lidassist-grant.XXXXXX")"
+chmod 700 "$LIDASSIST_TMP_DIR"
+trap 'rm -rf "$LIDASSIST_TMP_DIR"' EXIT
 
 # sudoers：仅允许 pmset -a disablesleep 0/1
-cat > "$TMPDIR_LA/lidassist.sudoers" <<EOF
+cat > "$LIDASSIST_TMP_DIR/lidassist.sudoers" <<EOF
 Cmnd_Alias LIDASSIST_PMSET = /usr/bin/pmset -a disablesleep 0, /usr/bin/pmset -a disablesleep 1
 $USER_NAME ALL=(root) NOPASSWD: LIDASSIST_PMSET
 EOF
 
 # 看门狗：App 崩溃超过 2 分钟 → 恢复允许休眠，防电池耗尽
-cat > "$TMPDIR_LA/lidassist-watchdog.sh" <<EOF
+cat > "$LIDASSIST_TMP_DIR/lidassist-watchdog.sh" <<EOF
 #!/bin/sh
 HB="$HEARTBEAT"
 while true; do
@@ -32,7 +33,7 @@ while true; do
 done
 EOF
 
-cat > "$TMPDIR_LA/com.lidassist.watchdog.plist" <<EOF
+cat > "$LIDASSIST_TMP_DIR/com.lidassist.watchdog.plist" <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -50,17 +51,17 @@ cat > "$TMPDIR_LA/com.lidassist.watchdog.plist" <<EOF
 </plist>
 EOF
 
-cat > "$TMPDIR_LA/root.sh" <<EOF
+cat > "$LIDASSIST_TMP_DIR/root.sh" <<EOF
 #!/bin/sh
 set -e
-visudo -c -f "$TMPDIR_LA/lidassist.sudoers" >/dev/null
-cp "$TMPDIR_LA/lidassist.sudoers" /etc/sudoers.d/lidassist
+visudo -c -f "$LIDASSIST_TMP_DIR/lidassist.sudoers" >/dev/null
+cp "$LIDASSIST_TMP_DIR/lidassist.sudoers" /etc/sudoers.d/lidassist
 chown root:wheel /etc/sudoers.d/lidassist
 chmod 440 /etc/sudoers.d/lidassist
 mkdir -p /usr/local/bin
-cp "$TMPDIR_LA/lidassist-watchdog.sh" /usr/local/bin/lidassist-watchdog.sh
+cp "$LIDASSIST_TMP_DIR/lidassist-watchdog.sh" /usr/local/bin/lidassist-watchdog.sh
 chmod 755 /usr/local/bin/lidassist-watchdog.sh
-cp "$TMPDIR_LA/com.lidassist.watchdog.plist" /Library/LaunchDaemons/com.lidassist.watchdog.plist
+cp "$LIDASSIST_TMP_DIR/com.lidassist.watchdog.plist" /Library/LaunchDaemons/com.lidassist.watchdog.plist
 chmod 644 /Library/LaunchDaemons/com.lidassist.watchdog.plist
 launchctl bootout system/com.lidassist.watchdog 2>/dev/null || true
 launchctl bootstrap system /Library/LaunchDaemons/com.lidassist.watchdog.plist
@@ -69,7 +70,7 @@ EOF
 
 echo "请求管理员授权（安装 pmset 免密授权 + 看门狗）…"
 echo "请在弹出的对话框中输入你的开机密码。"
-osascript -e "do shell script \"/bin/sh $TMPDIR_LA/root.sh\" with administrator privileges" >/dev/null
+osascript -e "do shell script \"/bin/sh $LIDASSIST_TMP_DIR/root.sh\" with administrator privileges" >/dev/null
 echo "✓ 免密授权与看门狗已安装"
 
 # 登录自启
@@ -93,7 +94,6 @@ cat > "$AGENT" <<EOF
 EOF
 launchctl bootout "gui/$(id -u)/com.lidassist.app" 2>/dev/null || true
 launchctl bootstrap "gui/$(id -u)" "$AGENT" 2>/dev/null || true
-rm -rf "$TMPDIR_LA"
 
 echo "✓ 登录自启已配置"
 echo "完成！菜单栏已可正常使用盒盖助手。"

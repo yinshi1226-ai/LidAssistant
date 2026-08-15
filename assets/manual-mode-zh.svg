@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="24" flood-color="#0F172A" flood-opacity="0.16"/>
+    </filter>
+    <clipPath id="screenClip">
+      <rect x="1002" y="182" width="504" height="412" rx="24"/>
+    </clipPath>
+  </defs>
+
+  <rect width="1600" height="900" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="18" height="900" fill="#C2410C"/>
+
+  <text x="84" y="78" fill="#EA580C" font-family="PingFang SC, Helvetica Neue, Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="2">盒盖助手 · 手动模式</text>
+  <text x="84" y="145" fill="#0F172A" font-family="PingFang SC, Helvetica Neue, Arial, sans-serif" font-size="47" font-weight="700">不等自动判断，直接决定合盖后睡不睡</text>
+  <text x="84" y="192" fill="#64748B" font-family="PingFang SC, Helvetica Neue, Arial, sans-serif" font-size="24">临时跑下载、渲染或长任务时，一眼看清当前选择</text>
+
+  <line x1="84" y1="236" x2="900" y2="236" stroke="#CBD5E1" stroke-width="2"/>
+
+  <rect x="84" y="282" width="812" height="120" rx="18" fill="#FFF7ED" stroke="#FED7AA"/>
+  <circle cx="128" cy="342" r="24" fill="#F97316"/>
+  <text x="128" y="350" text-anchor="middle" fill="#FFFFFF" font-family="PingFang SC, Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700">橙</text>
+  <text x="174" y="330" fill="#0F172A" font-family="PingFang SC, Helvetica Neue, Arial, sans-serif" font-size="28" font-weight="700">合盖不眠</text>
+  <text x="174" y="368" fill="#475569" font-family="PingFang SC, Helvetica Neue, Arial, sans-serif" font-size="20">打开后，合上屏幕仍保持系统运行；关闭则恢复合盖休眠</text>
+
+  <rect x="84" y="430" width="812" height="120" rx="18" fill="#EFF6FF" stroke="#BFDBFE"/>
+  <circle cx="128" cy="490" r="24" fill="#0A84FF"/>
+  <text x="128" y="498" text-anchor="middle" fill="#FFFFFF" font-family="PingFang SC, Helvetica Neue, Arial, sans-serif" font-size="20" font-weight="700">蓝</text>
+  <text x="174" y="478" fill="#0F172A" font-family="PingFang SC, Helvetica Neue, Arial, sans-serif" font-size="28" font-weight="700">合盖时黑屏节能</text>
+  <text x="174" y="516" fill="#475569" font-family="PingFang SC, Helvetica Neue, Arial, sans-serif" font-size="20">保持运行时把内置屏亮度降到最低，开盖后恢复原亮度</text>
+
+  <rect x="84" y="582" width="812" height="130" rx="18" fill="#F8FAFC" stroke="#E2E8F0"/>
+  <text x="116" y="626" fill="#1E3A8A" font-family="PingFang SC, Helvetica Neue, Arial, sans-serif" font-size="19" font-weight="700">适合这些临时场景</text>
+  <text x="116" y="666" fill="#334155" font-family="PingFang SC, Helvetica Neue, Arial, sans-serif" font-size="21">大文件下载　·　本地渲染　·　批量处理　·　不在自动识别列表里的任务</text>
+
+  <rect x="84" y="742" width="812" height="66" rx="16" fill="#F1F5F9"/>
+  <text x="116" y="783" fill="#334155" font-family="PingFang SC, Helvetica Neue, Arial, sans-serif" font-size="18">退出应用会恢复允许休眠，避免忘记关闭造成持续耗电</text>
+
+  <rect x="956" y="126" width="584" height="548" rx="34" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
+  <rect x="1002" y="182" width="504" height="412" rx="24" fill="#FFFFFF" filter="url(#shadow)"/>
+  <image href="menu-manual.png" x="1002" y="182" width="504" height="412" preserveAspectRatio="xMidYMid meet" clip-path="url(#screenClip)"/>
+  <circle cx="1218" cy="632" r="5" fill="#F97316"/>
+  <text x="1234" y="639" fill="#64748B" font-family="PingFang SC, Helvetica Neue, Arial, sans-serif" font-size="18">手动模式界面</text>
+
+  <text x="84" y="858" fill="#94A3B8" font-family="PingFang SC, Helvetica Neue, Arial, sans-serif" font-size="16">盒盖助手 · v1.7.0 · Apple silicon · macOS 13+</text>
+</svg>

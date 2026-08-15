@@ -53,7 +53,7 @@ final class SleepController {
 
     /// sudo 免密是否可用（诊断用）
     func sudoAvailable() -> Bool {
-        Proc.run("/usr/bin/sudo", ["-n", "true"], timeout: 5).status == 0
+        Proc.run("/usr/bin/sudo", ["-n", "-l", "/usr/bin/pmset", "-a", "disablesleep", "0"], timeout: 5).status == 0
     }
 
     // MARK: - IOKit 状态

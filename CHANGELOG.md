@@ -1,5 +1,24 @@
 # 更新日志
 
+## [1.7.0] - 2026-08-15
+
+### 修复
+- 使用新的 Bundle ID `com.lidassistant.menubar2`，避免 macOS 沿用旧的状态栏隐藏记录。
+- 权限检测改为核对应用真正需要的 `pmset` 命令，不再误报授权失败。
+- 安装脚本使用随机私有临时目录，不再删除其他软件可能使用的 sudoers 文件。
+
+### 工程
+- 新增配置迁移测试与安装脚本语法检查。
+- README 产品图与功能说明重新整理。
+
+## [1.6.0] - 2026-08-14
+
+### 新增
+- 国际化：英文 README（`README.md`）+ 中文 README（`README.zh-CN.md`），附真实界面截图；
+- Homebrew tap 安装方式（`yinshi1226-ai/homebrew-tap`）；
+- `grant.sh`：打包进 App 的 `Contents/Resources/`，支持 brew/下载安装后一键授权；
+- GitHub Actions：CI 构建 + 打 tag自动发布 Release（.app zip + SHA-256 校验和）。
+
 ## [1.5.5] - 2026-08-14
 
 ### 新增
@@ -36,11 +55,3 @@
 - 自动模式（合盖时任务感知：任务运行保持清醒，任务结束 N 分钟后休眠）；
 - 任务检测：DeepSeek Harness API + Codex/Claude/WorkBuddy 任务日志 + 网络流量佐证；
 - 一键安装（pmset 免密授权 + 崩溃看门狗 + 登录自启）。
-
-## [1.6.0] - 2026-08-14
-
-### 新增
-- 国际化：英文 README（`README.md`）+ 中文 README（`README.zh-CN.md`），附真实界面截图；
-- Homebrew tap 安装方式（`yinshi1226-ai/homebrew-tap`）；
-- `grant.sh`：打包进 App 的 `Contents/Resources/`，支持 brew/下载安装后一键授权；
-- GitHub Actions：CI 构建 + 打 tag 自动发布 Release（.app zip + SHA-256 校验和）。

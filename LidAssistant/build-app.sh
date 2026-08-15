@@ -11,6 +11,8 @@ APP="build/盒盖助手.app"
 rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 cp .build/release/LidAssistant "$APP/Contents/MacOS/LidAssistant"
+# SwiftPM 产物会保留本机源码绝对路径；发布前移除调试符号，避免暴露用户名与目录。
+strip -S "$APP/Contents/MacOS/LidAssistant"
 # 授权脚本打进 App 包，便于 brew/下载安装后一键授权
 cp "$SCRIPT_DIR/../grant.sh" "$APP/Contents/Resources/grant.sh"
 chmod +x "$APP/Contents/Resources/grant.sh"
@@ -22,10 +24,10 @@ cat > "$APP/Contents/Info.plist" <<'PLIST'
 <dict>
 	<key>CFBundleName</key><string>盒盖助手</string>
 	<key>CFBundleDisplayName</key><string>盒盖助手</string>
-	<key>CFBundleIdentifier</key><string>com.lidassistant.menubar</string>
+	<key>CFBundleIdentifier</key><string>com.lidassistant.menubar2</string>
 	<key>CFBundleExecutable</key><string>LidAssistant</string>
 	<key>CFBundlePackageType</key><string>APPL</string>
-	<key>CFBundleShortVersionString</key><string>1.6.0</string>
+	<key>CFBundleShortVersionString</key><string>1.7.0</string>
 	<key>CFBundleVersion</key><string>1</string>
 	<key>LSMinimumSystemVersion</key><string>13.0</string>
 	<key>LSUIElement</key><true/>
