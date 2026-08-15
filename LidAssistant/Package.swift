@@ -8,6 +8,11 @@ let package = Package(
         .executableTarget(
             name: "LidAssistant",
             path: "Sources/LidAssistant"
+        ),
+        .testTarget(
+            name: "LidAssistantTests",
+            dependencies: ["LidAssistant"],
+            path: "Tests/LidAssistantTests"
         )
     ]
 )

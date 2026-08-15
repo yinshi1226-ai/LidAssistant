@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="24" flood-color="#0F172A" flood-opacity="0.16"/>
+    </filter>
+    <clipPath id="screenClip">
+      <rect x="1032" y="154" width="452" height="600" rx="24"/>
+    </clipPath>
+  </defs>
+
+  <rect width="1600" height="900" fill="#FFFFFF"/>
+  <rect x="0" y="0" width="18" height="900" fill="#1E3A8A"/>
+
+  <text x="84" y="74" fill="#2563EB" font-family="Helvetica Neue, Arial, sans-serif" font-size="21" font-weight="700" letter-spacing="2">MACOS MENU BAR UTILITY</text>
+  <text x="84" y="132" fill="#0F172A" font-family="Helvetica Neue, Arial, sans-serif" font-size="42" font-weight="700">Keep the task running after the lid closes—</text>
+  <text x="84" y="180" fill="#0F172A" font-family="Helvetica Neue, Arial, sans-serif" font-size="42" font-weight="700">restore sleep when the work is done</text>
+  <text x="84" y="220" fill="#64748B" font-family="Helvetica Neue, Arial, sans-serif" font-size="22">Automatic AI-task awareness, with a manual override when you need it</text>
+
+  <line x1="84" y1="258" x2="896" y2="258" stroke="#CBD5E1" stroke-width="2"/>
+
+  <circle cx="116" cy="326" r="28" fill="#1E3A8A"/>
+  <text x="116" y="335" text-anchor="middle" fill="#FFFFFF" font-family="Helvetica Neue, Arial, sans-serif" font-size="25" font-weight="700">1</text>
+  <text x="166" y="316" fill="#0F172A" font-family="Helvetica Neue, Arial, sans-serif" font-size="27" font-weight="700">Watch local task signals</text>
+  <text x="166" y="352" fill="#475569" font-family="Helvetica Neue, Arial, sans-serif" font-size="19">DeepSeek, ChatGPT, Claude, and WorkBuddy in one menu</text>
+
+  <line x1="116" y1="362" x2="116" y2="432" stroke="#CBD5E1" stroke-width="3"/>
+  <circle cx="116" cy="468" r="28" fill="#2563EB"/>
+  <text x="116" y="477" text-anchor="middle" fill="#FFFFFF" font-family="Helvetica Neue, Arial, sans-serif" font-size="25" font-weight="700">2</text>
+  <text x="166" y="458" fill="#0F172A" font-family="Helvetica Neue, Arial, sans-serif" font-size="27" font-weight="700">Keep working with the lid closed</text>
+  <text x="166" y="494" fill="#475569" font-family="Helvetica Neue, Arial, sans-serif" font-size="19">Prevent sleep when needed and dim the built-in display to save power</text>
+
+  <line x1="116" y1="504" x2="116" y2="574" stroke="#CBD5E1" stroke-width="3"/>
+  <circle cx="116" cy="610" r="28" fill="#60A5FA"/>
+  <text x="116" y="619" text-anchor="middle" fill="#0F172A" font-family="Helvetica Neue, Arial, sans-serif" font-size="25" font-weight="700">3</text>
+  <text x="166" y="600" fill="#0F172A" font-family="Helvetica Neue, Arial, sans-serif" font-size="27" font-weight="700">Sleep after the configured idle delay</text>
+  <text x="166" y="636" fill="#475569" font-family="Helvetica Neue, Arial, sans-serif" font-size="19">Use task-aware Auto mode or choose lid-close sleep behavior manually</text>
+
+  <rect x="84" y="704" width="812" height="92" rx="18" fill="#F1F5F9"/>
+  <text x="116" y="742" fill="#1E3A8A" font-family="Helvetica Neue, Arial, sans-serif" font-size="18" font-weight="700">CLEAR PRIVILEGE BOUNDARY</text>
+  <text x="116" y="774" fill="#334155" font-family="Helvetica Neue, Arial, sans-serif" font-size="18">Local-only · Does not read prompt text · Sleep permission is removable</text>
+
+  <rect x="976" y="112" width="560" height="694" rx="34" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="2"/>
+  <rect x="1032" y="154" width="452" height="600" rx="24" fill="#FFFFFF" filter="url(#shadow)"/>
+  <image href="menu-auto.png" x="1032" y="154" width="452" height="600" preserveAspectRatio="xMidYMid meet" clip-path="url(#screenClip)"/>
+  <circle cx="1228" cy="781" r="5" fill="#2563EB"/>
+  <text x="1244" y="788" fill="#64748B" font-family="Helvetica Neue, Arial, sans-serif" font-size="18">Auto mode</text>
+
+  <text x="84" y="858" fill="#94A3B8" font-family="Helvetica Neue, Arial, sans-serif" font-size="16">LidAssistant · v1.7.0 · Apple silicon · macOS 13+</text>
+</svg>

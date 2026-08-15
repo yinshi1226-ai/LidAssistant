@@ -2,7 +2,7 @@
 
 ## 报告漏洞
 
-如果你发现了安全漏洞，请**不要公开讨论**，直接在 GitHub Issues 中新建一个 issue，并在标题前加 `[SECURITY]`，或在 issue 正文中注明「请私密处理」。作者会尽快回复。
+如果你发现了安全漏洞，请**不要创建公开 Issue**。请通过仓库的 [Private vulnerability reporting](https://github.com/yinshi1226-ai/LidAssistant/security/advisories/new) 私密提交，作者会尽快回复。
 
 ## 权限与数据
 
@@ -22,4 +22,4 @@
 
 ## 签名说明
 
-当前构建为 ad-hoc 签名（无开发者证书），首次安装需在「系统设置 → 隐私与安全性」中允许「仍要打开」。正式发布版会尝试公证（notarization）以消除该提示。
+当前 Release 使用 ad-hoc 签名，没有开发者证书或 Apple 公证。构建和安装脚本不会创建证书、私钥、钥匙串或系统信任根，也不会关闭 macOS 安全设置。首次安装需由用户在「系统设置 → 隐私与安全性」中确认打开。
